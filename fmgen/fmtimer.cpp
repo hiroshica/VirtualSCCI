@@ -92,11 +92,11 @@ bool Timer::Count(int32 us)
 // ---------------------------------------------------------------------------
 //	次にタイマーが発生するまでの時間を求める
 //
-int32 Timer::GetNextEvent()
+int32 Timer::GetNextEvent(void)
 {
 	uint32 ta = ((timera_count + 0xffff) >> 16) - 1;
 	uint32 tb = ((timerb_count + 0xfff) >> 12) - 1;
-	return (ta < tb ? ta : tb) + 1;
+	return (int32)((ta < tb ? ta : tb) + 1);
 }
 
 // ---------------------------------------------------------------------------

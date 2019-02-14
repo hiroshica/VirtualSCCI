@@ -6,7 +6,7 @@ VOPM::VOPM(int clock, int rate) : vSoundChip(clock, rate)
 {
 	theopm = new FM::OPM();
 	theopm->Init(clock, rate);
-	strncpy(theinfo.cSoundChipName, "YM2151", 64);
+	strncpy_s(theinfo.cSoundChipName, "YM2151", 64);
 }
 
 VOPM::~VOPM()
@@ -22,7 +22,7 @@ BOOL __stdcall VOPM::setRegister(DWORD dAddr, DWORD dData)
 
 DWORD __stdcall VOPM::getRegister(DWORD dAddr)
 {
-	return theopm->GetReg(dAddr);
+	return (DWORD)theopm->GetReg((uint)dAddr);
 }
 
 BOOL __stdcall VOPM::init()
@@ -40,7 +40,7 @@ VOPN::VOPN(int clock, int rate) : vSoundChip(clock, rate)
 {
 	theopn = new FM::OPN();
 	theopn->Init(clock, rate);
-	strncpy(theinfo.cSoundChipName, "YM2203", 64);
+	strncpy_s(theinfo.cSoundChipName, "YM2203", 64);
 }
 
 VOPN::~VOPN()
@@ -74,7 +74,7 @@ VOPNA::VOPNA(int clock, int rate) : vSoundChip(clock, rate)
 {
 	theopna = new FM::OPNA();
 	theopna->Init(clock, rate);
-	strncpy(theinfo.cSoundChipName, "YM2608", 64);
+	strncpy_s(theinfo.cSoundChipName, "YM2608", 64);
 }
 
 VOPNA::~VOPNA()
@@ -108,7 +108,7 @@ VPSG::VPSG(int clock, int rate) : vSoundChip(clock, rate)
 {
 	thepsg = new PSG();
 	thepsg->SetClock(clock, rate);
-	strncpy(theinfo.cSoundChipName, "AY-3-8910", 64);
+	strncpy_s(theinfo.cSoundChipName, "AY-3-8910", 64);
 }
 
 VPSG::~VPSG()

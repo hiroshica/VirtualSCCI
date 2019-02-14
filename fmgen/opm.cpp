@@ -10,6 +10,8 @@
 
 //#define LOGNAME "opm"
 
+#define kREMOVE_ASSERT
+
 namespace FM
 {
 
@@ -94,7 +96,9 @@ void OPM::RebuildTimeTable()
 {
 	uint fmclock = clock / 64;
 
+#ifndef kREMOVE_ASSERT
 	assert(fmclock < (0x80000000 >> FM_RATIOBITS));
+#endif
 	rateratio = ((fmclock << FM_RATIOBITS) + rate/2) / rate;
 	SetTimerBase(fmclock);
 	
@@ -208,7 +212,9 @@ void OPM::SetReg(uint addr, uint data)
 	case 0x18:					// LFRQ(lfo freq)
 		lfofreq = data;
 
+#ifndef kREMOVE_ASSERT
 		assert(16-4-FM_RATIOBITS >= 0);
+#endif
 		lfo_count_diff_ = 
 			rateratio 
 			* ((16 + (lfofreq & 15)) << (16 - 4 - FM_RATIOBITS)) 
@@ -263,7 +269,11 @@ void OPM::SetReg(uint addr, uint data)
 		break;
 	}
 }
-
+//	レジスタ読み込み
+uint OPM::GetReg(uint addr)
+{
+	return 0;
+}
 
 // ---------------------------------------------------------------------------
 //	パラメータセット

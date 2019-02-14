@@ -4,9 +4,15 @@
 // ---------------------------------------------------------------------------
 //	$Id: opna.cpp,v 1.68 2003/06/12 14:03:44 cisc Exp $
 
+//#include <windows.h>
+#include <tchar.h>
+#include  <math.h>
+
 #include "stdafx.h"
 #include "opna.h"
 #include "fmgeninl.h"
+
+#define kREMOVE_ASSERT
 
 #define BUILD_OPN
 #define BUILD_OPNA
@@ -113,14 +119,18 @@ void OPNBase::SetPrescaler(uint p)
 	if (prescale != p)
 	{
 		prescale = p;
+#ifndef kREMOVE_ASSERT
 		assert(0 <= prescale && prescale < 3);
-		
+#endif
+
 		uint fmclock = clock / table[p][0] / 12;
 		
 		rate = psgrate;
 		
 		// ‡¬Žü”g”‚Æo—ÍŽü”g”‚Ì”ä
+#ifndef kREMOVE_ASSERT
 		assert(fmclock < (0x80000000 >> FM_RATIOBITS));
+#endif
 		uint ratio = ((fmclock << FM_RATIOBITS) + rate/2) / rate;
 
 		SetTimerBase(fmclock);
@@ -1259,7 +1269,12 @@ bool OPNA::LoadRhythmSample(HMODULE hInstance)
 {
 	static LPCTSTR rhythmname[6] =
 	{
-		L"YM2608_BD", L"YM2608_SD", L"YM2608_TOP", L"YM2608_HH", L"YM2608_TOM", L"YM2608_RIM",
+		_T("YM2608_BD"),
+		_T("YM2608_SD"),
+		_T("YM2608_TOP"),
+		_T("YM2608_HH"),
+		_T("YM2608_TOM"),
+		_T("YM2608_RIM"),
 	};
 
 	int i;
@@ -1268,7 +1283,7 @@ bool OPNA::LoadRhythmSample(HMODULE hInstance)
 
 	for (i=0; i<6; i++)
 	{
-		HGLOBAL hres = ::LoadResource(hInstance, ::FindResource(hInstance, rhythmname[i], L"WAV_DAT"));
+		HGLOBAL hres = ::LoadResource(hInstance, ::FindResource(hInstance, rhythmname[i], _T("WAV_DAT")));
 		uint8* wavdata = (uint8*)::LockResource(hres);
 		
 		struct

@@ -21,6 +21,9 @@
 //		ほか掲示板等で様々なご助言，ご支援をお寄せいただいた皆様に
 // ---------------------------------------------------------------------------
 
+#include <math.h>
+#include <assert.h>
+
 #include "stdafx.h"
 #include "fmgen.h"
 #include "fmgeninl.h"
@@ -28,6 +31,7 @@
 #define LOGNAME "fmgen"
 
 // ---------------------------------------------------------------------------
+#define kREMOVE_ASSERT
 
 #define FM_EG_BOTTOM 955
 
@@ -259,7 +263,9 @@ void Chip::MakeTable()
 	static const float dt2lv[4] = { 1.f, 1.414f, 1.581f, 1.732f };
 	for (h=0; h<4; h++)
 	{
+#ifndef kREMOVE_ASSERT
 		assert(2 + FM_RATIOBITS - FM_PGBITS >= 0);
+#endif
 		double rr = dt2lv[h] * double(ratio_) / (1 << (2 + FM_RATIOBITS - FM_PGBITS));
 		for (l=0; l<16; l++)
 		{
@@ -325,8 +331,10 @@ void FM::Operator::Reset()
 
 void Operator::MakeTable()
 {
+#ifndef kREMOVE_ASSERT
 	// 対数テーブルの作成
 	assert(FM_CLENTS >= 256);
+#endif
 
 	int* p = cltable;
 	int i;
@@ -407,7 +415,9 @@ void Operator::Prepare()
 		{
 			int m = ar_ >= ((ssg_type_ == 8 || ssg_type_ == 12) ? 56 : 60);
 
+#ifndef kREMOVE_ASSERT
 			assert(0 <= ssg_phase_ && ssg_phase_ <= 2);
+#endif
 			const int* table = ssgenvtable[ssg_type_ & 7][m][ssg_phase_];
 
 			ssg_offset_ = table[0] * 0x200;
@@ -435,7 +445,9 @@ void Operator::ShiftPhase(EGPhase nextphase)
 			
 			int m = ar_ >= ((ssg_type_ == 8 || ssg_type_ == 12) ? 56 : 60);
 
+#ifndef kREMOVE_ASSERT
 			assert(0 <= ssg_phase_ && ssg_phase_ <= 2);
+#endif
 			const int* table = ssgenvtable[ssg_type_ & 7][m][ssg_phase_];
 
 			ssg_offset_ = table[0] * 0x200;

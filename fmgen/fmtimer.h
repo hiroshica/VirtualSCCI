@@ -7,6 +7,7 @@
 #ifndef FM_TIMER_H
 #define FM_TIMER_H
 
+#include "types.h"
 // ---------------------------------------------------------------------------
 
 namespace FM
@@ -16,7 +17,7 @@ namespace FM
 	public:
 		void	Reset();
 		bool	Count(int32 us);
-		int32	GetNextEvent();
+		int32	GetNextEvent(void);
 	
 	protected:
 		virtual void SetStatus(uint bit) = 0;

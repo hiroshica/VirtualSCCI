@@ -7,7 +7,7 @@
 #ifndef FM_GEN_H
 #define FM_GEN_H
 
-//#include "types.h"
+#include "types.h"
 
 // ---------------------------------------------------------------------------
 //	’è”‚»‚Ì‚P
